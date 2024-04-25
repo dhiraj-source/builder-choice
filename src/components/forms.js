@@ -26,7 +26,7 @@ const Forms = () => {
     }
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         for (let key in data) {
@@ -43,11 +43,29 @@ const Forms = () => {
         setFormSubmit(true)
         setStore(true)
 
+        // api call for FORM POST MEthod
+        try {
+            const response = await fetch("/api/saveFormData", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ data, total: totalPoints })
+            });
+            if (response.ok) {
+                console.log("FORM data saved succesfully")
+            } else {
+                console.error("Error : ", response.statusText)
+            }
+        } catch (error) {
+            console.error("Error :", error)
+        }
+
     }
     return (
         <section className="bg-gradient-to-b from-gray-200 to-gray-800 min-h-screen">
             <div className="text-4xl flex justify-center text-center py-10 space-x-3">
-                <p>Total Points Gains : </p>{formSubmit ? <div className="flex font-extrabold"><p className="text-red-800">{total}</p><p>/46</p></div> : "--no Value--"}
+                <p>Total Points Gain's : </p>{formSubmit ? <div className="flex font-extrabold"><p className="text-red-800">{total}</p><p>/46</p></div> : "--no Value--"}
             </div>
             <div className="flex justify-center text-3xl px-2 py-2 bg-black text-white tracking-wider">
                 {store ? <p className="text-green-400">Succesfully Calculated Now you can SAVE IT !!!</p> : <p className="text-red-400">Please Select all the fields</p>}
