@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const Forms = () => {
-
+    const [formData, setFormData] = useState([])
     const [total, setTotal] = useState(0)
     const [formSubmit, setFormSubmit] = useState(false)
     const [store, setStore] = useState(false)
@@ -17,6 +17,24 @@ const Forms = () => {
         neighbourhood: '',
         cost: '',
     })
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("/api/getFormData")
+
+                const respoValue = await response.json()
+                console.log("dhaha", respoValue)
+                console.log("thala", respoValue)
+
+                // setFormData(respoValue)
+
+            } catch (error) {
+                console.log("Errror:", error)
+            }
+        }
+        fetchData()
+    }, [])
 
     const handleChange = (e) => {
         const { value, name } = e.target;
@@ -60,8 +78,9 @@ const Forms = () => {
         } catch (error) {
             console.error("Error :", error)
         }
-
     }
+
+    console.log("rrrrrr", formData)
     return (
         <section className="bg-gradient-to-b from-gray-200 to-gray-800 min-h-screen">
             <div className="text-4xl flex justify-center text-center py-10 space-x-3">

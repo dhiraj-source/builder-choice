@@ -23,7 +23,7 @@ export default async function handler(req, res) {
                 ...data, total
             });
 
-            const result = await formData.save()
+            const result = await formData.save() 
 
             res.status(201).json({
                 success: true,
