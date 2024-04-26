@@ -118,7 +118,7 @@ const Forms = () => {
     return (
         <section className="bg-gradient-to-b from-gray-200 to-gray-800 min-h-screen">
             <div className="text-4xl flex justify-center text-center py-10 space-x-3">
-                <p>Total Points Gain's : </p>{store ? <div className="flex font-extrabold"><p className="text-red-800">{total}</p><p>/46</p></div> : "--no Value--"}
+                <p>Total Points Gain's : </p>{store ? <div className="flex font-extrabold"><p className="text-red-800">{total}</p><p>/41</p></div> : "--no Value--"}
             </div>
             <div className="flex justify-center text-3xl px-2 py-2 bg-black text-white tracking-wider">
                 {store ? <p className="text-green-400">Succesfully Calculated Now you can SAVE IT !!!</p> : <p className="text-red-400">Please Select all the fields</p>}
@@ -311,7 +311,17 @@ const Forms = () => {
                     {formDatas.length >= 0 && formDatas.map((item, idx) => (
                         <div className="bg-gray-500 text-white text-lg px-2 my-4 gap-2  w-full">
                             <ul key={idx} className="grid sm:grid-cols-6  grid-cols-4 grid-rows-3 sm:grid-rows-2   gap-4">
-                                <li> <p className="font-extrabold text-2xl text-amber-400">{item?.builderName}</p></li>
+                                <li> <p className="font-extrabold text-2xl text-amber-400">{item?.builderName}</p> <p className="text-xs">{item?.createdAt.slice(0, 10).split('-').reverse().join('-')}
+                                </p><p className="text-xs">
+
+                                        {(() => {
+                                            const timePart = item?.createdAt.slice(11, 19);
+                                            const date = new Date("2000-01-01T" + timePart + "Z");
+                                            const formattedTime = date.toLocaleTimeString('en-IN', { hour: 'numeric', minute: 'numeric', hour12: true });
+                                            return formattedTime;
+                                        })()}
+
+                                </p></li>
                                 <li className="text-red-500 font-bold">builder:
                                     <p className="text-black font-bold">{item?.builder} rating</p>
                                 </li>
@@ -328,8 +338,8 @@ const Forms = () => {
                                 <li className="text-red-500 font-bold">location: <p className="text-black font-bold">{item?.location} rating</p></li>
                                 <li className="text-red-500 font-bold">rent: <p className="text-black font-bold">{item?.rent} rating</p></li>
                                 <li className="text-red-500 font-bold">neighbourhood: <p className="text-black font-bold">{item?.neighbourhood} rating</p></li>
-                                <li className="text-red-500 font-bold">cost: <p className="text-black font-bold">{item?.cost} rating</p></li>
-                                <li className="text-amber-600 font-bold">Total:<p className="text-blue-700 font-bold">{item?.total} rating</p></li>
+                                <li className="text-red-500 font-bold">cost: <p className="text-black font-bold">{item?.cost}  rating</p></li>
+                                <li className="text-amber-600 font-bold">Total:<p className="text-blue-700 font-bold">{item?.total} /41 rating</p></li>
                             </ul>
                         </div>
                     ))}
