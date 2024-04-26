@@ -125,9 +125,9 @@ const Forms = () => {
             </div>
 
             <div className="container grid grid-cols-2 mx-auto my-auto px-6 py-6">
-                
+
                 <form className="grid grid-rows-10 space-y-4 col-span-1" onSubmit={handleSubmit}>
-                <div className="text-red-400"> after calculate <p className="text-green-600">click on UPDATE then SAVE DETAILS to Save in DATABASE</p></div>
+                    <div className="text-red-400"> after calculate <p className="text-green-600">click on UPDATE then SAVE DETAILS to Save in DATABASE</p></div>
                     <div className=" text-xl ">
                         <label htmlFor="builderName" className="font-bold uppercase px-4">Enter Builder Name :</label>{" "}
                         <input className="px-4"
@@ -223,11 +223,11 @@ const Forms = () => {
                             onChange={handleChange}
                         >
                             <option value="" disabled>Select points</option>
-                            <option value={1}> (1 points)</option>
-                            <option value={2}> (2 points)</option>
-                            <option value={3}> (3 points)</option>
-                            <option value={4}> (4 points)</option>
-                            <option value={5}> (5 points)</option>
+                            <option value={1}>after 2.5 yr(1 points)</option>
+                            <option value={2}>before 2.4 yr(2 points)</option>
+                            <option value={3}>within 2 yr (3 points)</option>
+                            <option value={4}>within 1 yr(4 points)</option>
+                            <option value={5}>within 6 months (5 points)</option>
                         </select>
                     </div>
                     <div className=" text-xl">
@@ -238,7 +238,7 @@ const Forms = () => {
                             value={data.location}
                             onChange={handleChange}
                         >
-                            <option value="" disabled>8. Select points</option>
+                            <option value="" disabled> Select points</option>
                             <option value={1}> (1 points)</option>
                             <option value={2}> (2 points)</option>
                             <option value={3}> (3 points)</option>
@@ -258,8 +258,6 @@ const Forms = () => {
                             <option value={1}> (1 points)</option>
                             <option value={2}> (2 points)</option>
                             <option value={3}> (3 points)</option>
-                            <option value={4}> (4 points)</option>
-                            <option value={5}> (5 points)</option>
                         </select>
                     </div>
                     <div className=" text-xl">
@@ -270,16 +268,13 @@ const Forms = () => {
                             value={data.neighbourhood}
                             onChange={handleChange}
                         >
-                            <option value="" disabled>10. Select points</option>
+                            <option value="" disabled> Select points</option>
                             <option value={1}> (1 points)</option>
                             <option value={2}> (2 points)</option>
-                            <option value={3}> (3 points)</option>
-                            <option value={4}> (4 points)</option>
-                            <option value={5}> (5 points)</option>
                         </select>
                     </div>
                     <div className=" text-xl ">
-                        <label htmlFor="cost" className="font-bold uppercase px-4">11. cost (Lakhs)</label>{" "}
+                        <label htmlFor="cost" className="font-bold uppercase px-4">10. cost (Lakhs)</label>{" "}
                         <select className="px-4"
                             id="cost"
                             value={data.cost}
@@ -295,7 +290,7 @@ const Forms = () => {
                         </select>
                     </div>
                     <div className=" flex space-x-6">
-                        {!formSubmit ?
+                        {formSubmit ?
 
                             <>
                                 <button onClick={handleSave} className="px-4 bg-red-800 text-white text-2xl py-2 rounded-xl">Save Details</button>
