@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react"
 
 const Forms = () => {
-    const [formData, setFormData] = useState([])
+
+    const [builderName, setBuilderName] = useState("")
+    const [formDatas, setFormDatas] = useState([])
     const [total, setTotal] = useState(0)
     const [formSubmit, setFormSubmit] = useState(false)
     const [store, setStore] = useState(false)
     const [data, setData] = useState({
+        // builderName:'',
         builder: '',
         area: '',
         quality: '',
@@ -18,33 +21,66 @@ const Forms = () => {
         cost: '',
     })
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch("/api/getFormData")
 
-                const respoValue = await response.json()
-                console.log("dhaha", respoValue)
-                console.log("thala", respoValue)
-
-                // setFormData(respoValue)
-
-            } catch (error) {
-                console.log("Errror:", error)
+    //save
+    const handleSave = async () => {
+        console.log("handleSave calling", builderName, total, data)
+        try {
+            const response = await fetch("/api/saveFormData", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ data, builderName: builderName, total: total })
+            });
+            if (response.ok) {
+                console.log("FORM data saved succesfully")
+            } else {
+                console.error("Error : ", response.statusText)
             }
+        } catch (error) {
+            console.error("Error :", error)
         }
-        fetchData()
-    }, [])
+        setStore(false)
+    }
 
     const handleChange = (e) => {
         const { value, name } = e.target;
+        console.log("name", name, value)
         setData((prev) => ({
             ...prev, [name]: value
         }))
     }
 
+    useEffect(() => {
+    }, [formDatas])
+    const handleUpdate = async () => {
+        try {
+            const response = await fetch("/api/getFormData")
 
-    const handleSubmit = async (e) => {
+            if (response.ok) {
+                const respoValue = await response.json()
+                // console.log("dhaha", respoValue)
+                console.log("thala", respoValue.formData)
+                const result = await respoValue.formData
+                console.log("ttttt", typeof (result))
+                setFormDatas(result)
+            } else {
+                console.error("Error : ", response.statusText)
+            }
+
+            // setFormData(respoValue)
+
+        } catch (error) {
+            console.log("Errror:", error)
+        }
+        setFormSubmit(false)
+
+    }
+
+
+
+    const handleSubmit = (e) => {
         e.preventDefault()
 
         for (let key in data) {
@@ -55,42 +91,54 @@ const Forms = () => {
         }
 
         console.log("got data", data)
+        // const nameExtract = Object.values(data).pop()
+        // console.log("array rem", nameExtract)
+        // let newValue =  Object.values(data).filter(item => item == item. )
         let totalPoints = Object.values(data).reduce((acc, value) => acc + parseInt(value), 0)
         console.log("the totalPoints value is :" + " ", totalPoints)
+        console.log("finding", typeof (totalPoints))
         setTotal(totalPoints)
         setFormSubmit(true)
         setStore(true)
 
         // api call for FORM POST MEthod
-        try {
-            const response = await fetch("/api/saveFormData", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ data, total: totalPoints })
-            });
-            if (response.ok) {
-                console.log("FORM data saved succesfully")
-            } else {
-                console.error("Error : ", response.statusText)
-            }
-        } catch (error) {
-            console.error("Error :", error)
-        }
+
     }
 
-    console.log("rrrrrr", formData)
+
+    // if (formSubmit) {
+    //     useEffect(() => {
+    //         const fetchData = async () => {
+
+    //         }
+    //         fetchData()
+    //     }, [])
+    // }
+
     return (
         <section className="bg-gradient-to-b from-gray-200 to-gray-800 min-h-screen">
             <div className="text-4xl flex justify-center text-center py-10 space-x-3">
-                <p>Total Points Gain's : </p>{formSubmit ? <div className="flex font-extrabold"><p className="text-red-800">{total}</p><p>/46</p></div> : "--no Value--"}
+                <p>Total Points Gain's : </p>{store ? <div className="flex font-extrabold"><p className="text-red-800">{total}</p><p>/46</p></div> : "--no Value--"}
             </div>
             <div className="flex justify-center text-3xl px-2 py-2 bg-black text-white tracking-wider">
                 {store ? <p className="text-green-400">Succesfully Calculated Now you can SAVE IT !!!</p> : <p className="text-red-400">Please Select all the fields</p>}
             </div>
-            <div className="container flex mx-auto my-auto px-6 py-6">
-                <form className="grid grid-rows-10 space-y-4" onSubmit={handleSubmit}>
+
+            <div className="container grid grid-cols-2 mx-auto my-auto px-6 py-6">
+                <div className=" text-xl ">
+                    <label htmlFor="builderName" className="font-bold uppercase px-4">Enter Builder Name :</label>{" "}
+                    <input className="px-4"
+                        placeholder="enter builder name"
+                        id="builderName"
+                        value={builderName}
+                        name="builderName"
+                        onChange={(e) => setBuilderName(e.target.value)}
+                    >
+
+                    </input>
+                </div>
+                <form className="grid grid-rows-10 space-y-4 col-span-1" onSubmit={handleSubmit}>
+
                     <div className=" text-xl ">
                         <label htmlFor="builder" className="font-bold uppercase px-4">1. Builder Reputation :</label>{" "}
                         <select className="px-4"
@@ -188,7 +236,7 @@ const Forms = () => {
                             value={data.location}
                             onChange={handleChange}
                         >
-                            <option value="" disabled>Select points</option>
+                            <option value="" disabled>8. Select points</option>
                             <option value={1}> (1 points)</option>
                             <option value={2}> (2 points)</option>
                             <option value={3}> (3 points)</option>
@@ -204,7 +252,7 @@ const Forms = () => {
                             value={data.rent}
                             onChange={handleChange}
                         >
-                            <option value="" disabled>Select points</option>
+                            <option value="" disabled>9. Select points</option>
                             <option value={1}> (1 points)</option>
                             <option value={2}> (2 points)</option>
                             <option value={3}> (3 points)</option>
@@ -220,7 +268,7 @@ const Forms = () => {
                             value={data.neighbourhood}
                             onChange={handleChange}
                         >
-                            <option value="" disabled>Select points</option>
+                            <option value="" disabled>10. Select points</option>
                             <option value={1}> (1 points)</option>
                             <option value={2}> (2 points)</option>
                             <option value={3}> (3 points)</option>
@@ -245,14 +293,50 @@ const Forms = () => {
                         </select>
                     </div>
                     <div className=" flex space-x-6">
-                        {store ?
-                            <button type="submit" className="px-4 bg-red-800 text-white text-2xl py-2 rounded-xl">Save Details</button>
-                            :
-                            <button type="submit" className="px-4 bg-blue-800 text-white text-2xl py-2 rounded-xl">Total Points</button>
-                        }
+                        {!formSubmit ?
 
+                            <>
+                                <button onClick={handleSave} className="px-4 bg-red-800 text-white text-2xl py-2 rounded-xl">Save Details</button>
+                            </>
+                            :
+                            <>
+                                <button type="submit" className="px-4 bg-blue-800 text-white text-2xl py-2 rounded-xl">Total Points</button>
+                            </>
+
+                        }
+                        <button onClick={handleUpdate} className="px-4 py-2 bg-yellow-600 rounded-2xl text-2xl text-white">Update</button>
                     </div>
                 </form>
+            </div>
+            <div className="flex flex-col bg-orange-200 px-4 py-4 justify-center">
+                <div>Data Save Lists !!</div>
+                <div className="flex flex-wrap justify-center">
+                    {formDatas.length >= 0 && formDatas.map((item, idx) => (
+                        <div className="bg-gray-500 text-white text-lg px-2 my-4 gap-2  w-full">
+                            <ul key={idx} className="grid grid-cols-6 grid-row-5  gap-4">
+                                <li> <p className="font-extrabold text-2xl text-amber-400">{item?.builderName}</p></li>
+                                <li className="text-red-500 font-bold">builder:
+                                    <p className="text-black font-bold">{item?.builder} rating</p>
+                                </li>
+                                <li className="text-red-500 font-bold">area:
+                                    <p className="text-black font-bold">
+                                        {item?.area} rating
+                                    </p>
+                                </li>
+
+                                <li className="text-red-500 font-bold">quality: <p className="text-black font-bold">{item?.quality} rating</p></li>
+                                <li className="text-red-500 font-bold">design: <p className="text-black font-bold">{item?.design} rating</p></li>
+                                <li className="text-red-500 font-bold">aminities: <p className="text-black font-bold">{item?.aminities} rating</p></li>
+                                <li className="text-red-500 font-bold">delivery: <p className="text-black font-bold">{item?.delivery} rating</p></li>
+                                <li className="text-red-500 font-bold">location: <p className="text-black font-bold">{item?.location} rating</p></li>
+                                <li className="text-red-500 font-bold">rent: <p className="text-black font-bold">{item?.rent} rating</p></li>
+                                <li className="text-red-500 font-bold">neighbourhood: <p className="text-black font-bold">{item?.neighbourhood} rating</p></li>
+                                <li className="text-red-500 font-bold">cost: <p className="text-black font-bold">{item?.cost} rating</p></li>
+                                <li className="text-amber-600 font-bold">Total:<p className="text-blue-700 font-bold">{item?.total} rating</p></li>
+                            </ul>
+                        </div>
+                    ))}
+                </div>
             </div>
         </section>
     )

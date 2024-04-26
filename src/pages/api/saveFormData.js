@@ -6,7 +6,7 @@ export default async function handler(req, res) {
         try {
             let db = await connectDB()
 
-            const { data, total } = req.body;
+            const { data, total, builderName } = req.body;
 
             //connection to db
             // Insert the form data and total score into the database
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
             // Create a new FormData instance
             const formData = new formModel({
-                ...data, total
+                ...data, total, builderName
             });
 
             const result = await formData.save() 

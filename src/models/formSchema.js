@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
-const formSchema =  new mongoose.Schema({
+const formSchema = new mongoose.Schema({
+    builderName:String,
     builder: String,
     area: String,
     quality: String,
@@ -12,7 +13,9 @@ const formSchema =  new mongoose.Schema({
     neighbourhood: String,
     cost: String,
     total: Number
-})
+},
+    { timestamps: true })
 
-const formModel = mongoose.model("buy", formSchema)
-export default formModel;
+// const formModel = mongoose.model("buy", formSchema)
+export default mongoose.models.buy || mongoose.model('buy', formSchema);
+// export default formModel;
