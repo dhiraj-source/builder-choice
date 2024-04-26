@@ -116,7 +116,7 @@ const Forms = () => {
     // }
 
     return (
-        <section className="bg-gradient-to-b from-gray-200 to-gray-800 min-h-screen">
+        <section className="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 min-h-screen">
             <div className="text-4xl flex justify-center text-center py-10 space-x-3">
                 <p>Total Points Gain's : </p>{store ? <div className="flex font-extrabold"><p className="text-red-800">{total}</p><p>/41</p></div> : "--no Value--"}
             </div>
@@ -127,7 +127,7 @@ const Forms = () => {
             <div className="container grid grid-cols-2 mx-auto my-auto px-6 py-6">
 
                 <form className="grid grid-rows-10 space-y-4 col-span-1" onSubmit={handleSubmit}>
-                    <div className="text-red-400"> after calculate <p className="text-green-600">click on UPDATE then SAVE DETAILS to Save in DATABASE</p></div>
+                    <div className="text-red-400"> after calculate <p className="text-black">click SAVE DETAILS to Save in DATABASE</p></div>
                     <div className=" text-xl ">
                         <label htmlFor="builderName" className="font-bold uppercase px-4">Enter Builder Name :</label>{" "}
                         <input className="px-4"
