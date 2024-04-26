@@ -125,19 +125,21 @@ const Forms = () => {
             </div>
 
             <div className="container grid grid-cols-2 mx-auto my-auto px-6 py-6">
-                <div className=" text-xl ">
-                    <label htmlFor="builderName" className="font-bold uppercase px-4">Enter Builder Name :</label>{" "}
-                    <input className="px-4"
-                        placeholder="enter builder name"
-                        id="builderName"
-                        value={builderName}
-                        name="builderName"
-                        onChange={(e) => setBuilderName(e.target.value)}
-                    >
-
-                    </input>
-                </div>
+                
                 <form className="grid grid-rows-10 space-y-4 col-span-1" onSubmit={handleSubmit}>
+                <div className="text-red-400"> after calculate <p className="text-green-600">click on UPDATE then SAVE DETAILS to Save in DATABASE</p></div>
+                    <div className=" text-xl ">
+                        <label htmlFor="builderName" className="font-bold uppercase px-4">Enter Builder Name :</label>{" "}
+                        <input className="px-4"
+                            placeholder="enter builder name"
+                            id="builderName"
+                            value={builderName}
+                            name="builderName"
+                            onChange={(e) => setBuilderName(e.target.value)}
+                        >
+
+                        </input>
+                    </div>
 
                     <div className=" text-xl ">
                         <label htmlFor="builder" className="font-bold uppercase px-4">1. Builder Reputation :</label>{" "}
@@ -252,7 +254,7 @@ const Forms = () => {
                             value={data.rent}
                             onChange={handleChange}
                         >
-                            <option value="" disabled>9. Select points</option>
+                            <option value="" disabled>Select points</option>
                             <option value={1}> (1 points)</option>
                             <option value={2}> (2 points)</option>
                             <option value={3}> (3 points)</option>
@@ -261,7 +263,7 @@ const Forms = () => {
                         </select>
                     </div>
                     <div className=" text-xl">
-                        <label htmlFor="neighbourhood" className="font-bold uppercase px-4">neighbourhood</label>{" "}
+                        <label htmlFor="neighbourhood" className="font-bold uppercase px-4">9. neighbourhood</label>{" "}
                         <select className="px-4"
                             id="neighbourhood"
                             name="neighbourhood"
@@ -277,7 +279,7 @@ const Forms = () => {
                         </select>
                     </div>
                     <div className=" text-xl ">
-                        <label htmlFor="cost" className="font-bold uppercase px-4">cost (Lakhs)</label>{" "}
+                        <label htmlFor="cost" className="font-bold uppercase px-4">11. cost (Lakhs)</label>{" "}
                         <select className="px-4"
                             id="cost"
                             value={data.cost}
@@ -313,7 +315,7 @@ const Forms = () => {
                 <div className="flex flex-wrap justify-center">
                     {formDatas.length >= 0 && formDatas.map((item, idx) => (
                         <div className="bg-gray-500 text-white text-lg px-2 my-4 gap-2  w-full">
-                            <ul key={idx} className="grid grid-cols-6 grid-row-5  gap-4">
+                            <ul key={idx} className="grid sm:grid-cols-6  grid-cols-4 grid-rows-3 sm:grid-rows-2   gap-4">
                                 <li> <p className="font-extrabold text-2xl text-amber-400">{item?.builderName}</p></li>
                                 <li className="text-red-500 font-bold">builder:
                                     <p className="text-black font-bold">{item?.builder} rating</p>
